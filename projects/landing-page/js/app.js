@@ -29,6 +29,28 @@
  * Start Helper Functions
  * 
 */
+const sectionsData = [
+  {
+    id: "section1",
+    navName: "Section 1",
+    element: document.querySelector("#section1"),
+  },
+  {
+    id: "section2",
+    navName: "Section 2",
+    element: document.querySelector("#section2"),
+  },
+  {
+    id: "section3",
+    navName: "Section 3",
+    element: document.querySelector("#section3"),
+  },
+  {
+    id: "section4",
+    navName: "Section 4",
+    element: document.querySelector("#section4"),
+  },
+];
 
 
 
