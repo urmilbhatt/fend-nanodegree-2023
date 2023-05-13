@@ -61,7 +61,13 @@ const sectionsData = [
 */
 
 // build the nav
+const navList = document.querySelector("#navbar__list");
 
+sectionsData.forEach((section) => {
+  const newListItem = document.createElement("li");
+  newListItem.innerHTML = `<a href="#${section.id}" class="menu__link">${section.navName}</a>`;
+  navList.appendChild(newListItem);
+});
 
 // Add class 'active' to section when near top of viewport
 
