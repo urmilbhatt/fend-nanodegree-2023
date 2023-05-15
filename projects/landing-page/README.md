@@ -1,6 +1,6 @@
 # Landing Page Project
 
-![Landing Page Demo GIF](https://github.com/urmilbhatt/fend-nanodegree-2023/assets/16276332/d1fc0a76-f88b-4baa-af50-1e9493ce8d2b)
+![Landing Page Demo GIF](https://github.com/urmilbhatt/fend-nanodegree-2023/assets/16276332/c8582b91-ec2e-4b36-8efe-aa6c844dc495)
 
 ## Table of Contents
 
