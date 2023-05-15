@@ -61,8 +61,12 @@ function setActiveSection() {
     for (let section of sections) {
       if (isInViewport(section)) {
         section.classList.add("your-active-class");
+        const navItem = navbar.querySelector(`[data-nav="${section.id}"]`);
+        navItem.classList.add("active");
       } else {
         section.classList.remove("your-active-class");
+        const navItem = navbar.querySelector(`[data-nav="${section.id}"]`);
+        navItem.classList.remove("active");
       }
     }
   });
