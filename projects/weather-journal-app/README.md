@@ -33,7 +33,9 @@ The Weather Journal App is developed using the following technologies:
 
 - Node.js
 - Express
-- React
+- HTML
+- CSS
+- JavaScript
 - OpenWeatherMap API
 
 ## Contributing
