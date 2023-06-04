@@ -1,5 +1,7 @@
 # Weather Journal App
 
+![Weather Journal App Demo GIF](https://github.com/urmilbhatt/fend-nanodegree-2023/assets/16276332/a559ada7-7c23-494d-b16f-92db01e4a4e0)
+
 This project is a simple web application that allows users to record their weather observations. It uses the OpenWeatherMap API to fetch weather data for a given location.
 
 ## Getting Started
