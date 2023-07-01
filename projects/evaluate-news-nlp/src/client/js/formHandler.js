@@ -19,7 +19,7 @@ async function postUrl(url='', data={}){
         console.log({newData})
         div.innerHTML = `Score Tag: ${newData.score_tag} <br>
                                 Agreement: ${newData.agreement} <br>
-                                Subjectivity: ${newData.agreement}<br> Confidence: ${newData.confidence}<br>
+                                Subjectivity: ${newData.subjectivity}<br> Confidence: ${newData.confidence}<br>
                                 Irony: ${newData.irony}`
         results.appendChild(div)
     }catch(error){
