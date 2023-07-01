@@ -1,78 +1,41 @@
-// Setup empty JS object to act as endpoint for all routes
-projectData = {};
+var path = require('path')
+const express = require('express')
+const fetchSentiment = require('./meaningcloudAPI')
+const cors = require('cors')
+const bodyParser = require('body-parser')
 
-// Use environment variables
-const dotenv = require('dotenv');
-dotenv.config();
+const app = express()
 
-var path = require('path');
-const express = require('express');
-const mockAPIResponse = require('./mockAPI.js');
+app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
-const app = express();
+app.use(express.static('dist'))
 
-//Here we are configuring express to use body-parser as middle-ware.
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+//console.log(__dirname)
 
-// Cors for cross origin allowance
-const cors = require('cors');
-app.use(cors());
-
-// Initialize the main project folder
-app.use(express.static('dist'));
-console.log(__dirname);
+app.get('/', function (req, res) {
+    res.sendFile(path.resolve('dist/index.html'))
+})
 
 // designates what port the app will listen to for incoming requests
-const port = 8081;
-app.listen(port, function () {
-    console.log('server is running')
-    console.log(`running on localport: ${port}!`)
-});
+app.listen(8081, function () {
+    console.log('Example app listening on port 8081!')
+})
 
-// GET route
-app.get('/', function (req, res) {
-    res.sendFile('dist/index.html')
-});
+// route to allow client to send url to server
+let projectData = {}
 
-// POST route
-app.post('/analysis', getSentiment);
+app.post('/getUrl', (req,res)=>{
+    //console.log(req.body);
+    const newEntry = {
+        url: req.body.u
+    }
+    
+    projectData = newEntry
 
-// Callback function to complete POST '/analysis'
-function getSentiment(req, res) {
-    const https = require('follow-redirects').https;
-    const formText = encodeURI(req.body.formText);
-    const options = {
-        'method': 'POST',
-        'hostname': 'api.meaningcloud.com',
-        'path': `/sentiment-2.1?key=${process.env.API_KEY}&lang=en&txt=${formText}&model=general`,
-        'headers': {
-        },
-        'maxRedirects': 20
-      };
-    
-      const request = https.request(options, function (response) {
-        var chunks = [];
-    
-        response.on("data", function (chunk) {
-          chunks.push(chunk);
-        });
-    
-        response.on("end", function (chunk) {
-          let body = Buffer.concat(chunks);
-          // Send the response back to client
-          res.send(JSON.parse(body));
-        });
-    
-        response.on("error", function (error) {
-          console.error(error);
-        });
-      });
-    
-      request.end();
-}
-
-app.get('/test', function (req, res) {
-    res.send(mockAPIResponse)
-});
+    const a = fetchSentiment(projectData.url)
+    .then((a)=>{
+        res.send(a)
+    })
+})

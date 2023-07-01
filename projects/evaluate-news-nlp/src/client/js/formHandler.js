@@ -1,30 +1,51 @@
-function handleSubmit(event) {
-    event.preventDefault();
+import fetch from 'node-fetch';
 
-    // check what text was put into the form field
-    let formText = document.getElementById('text').value;
-
-    // If no text is entered
-    if (Client.checkForText(formText)) {
-        alert("Please enter text before pressing submit button");
-        return;
-    };
-
-    fetch('http://localhost:8081/analysis', {
+async function postUrl(url='', data={}){
+    const res = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({formText: formText})
-    })
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('agreement').innerHTML = res.agreement;
-        document.getElementById('subjectivity').innerHTML = res.subjectivity;
-        document.getElementById('confidence').innerHTML = res.confidence;
-        document.getElementById('irony').innerHTML = res.irony;
-    })
+        body: JSON.stringify(data),
+    });
+
+    try{
+        const newData = await res.json();
+        console.log('new data:',newData);
+        const results = document.querySelector('#results')
+        //console.log(results);
+        const div = document.createElement('div')
+        console.log({newData})
+        div.innerHTML = `Score Tag: ${newData.score_tag} <br>
+                                Agreement: ${newData.agreement} <br>
+                                Subjectivity: ${newData.agreement}<br> Confidence: ${newData.confidence}<br>
+                                Irony: ${newData.irony}`
+        results.appendChild(div)
+    }catch(error){
+        console.log('error', error);
+    }
+}
+const error_msg = document.createElement('div');
+function handleSubmit(event) {
+    event.preventDefault();
+
+    const pattern = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+
+    let regex = new RegExp(pattern);
+    
+    
+    const form = document.querySelector('.form');
+    let urlText = document.querySelector('#name');
+    console.log({urlText})
+    // check what text was put into the form field
+    if(urlText.value != "" && urlText.value != null && urlText.value.match(regex)){
+        postUrl('http://localhost:8081/getUrl', {u: urlText.value})
+    }else{
+        error_msg.textContent = "Please Enter Valid URL";
+        error_msg.style.color = "red"; 
+        form.insertBefore(error_msg, urlText);
+    }
 }
 
-export { handleSubmit };
+export { handleSubmit }
